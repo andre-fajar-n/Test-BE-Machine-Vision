@@ -1,17 +1,32 @@
 {
   "type": "module",
   "name": "test-be-machine-vision",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "This project is test skill for Machine Vision",
+  "main": "server.js",
   "scripts": {
-    "start": "node ./bin/www.js"
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andre-fajar-n/Test-BE-Machine-Vision.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mysql",
+    "restapi"
+  ],
+  "author": "andre-fajar-n",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andre-fajar-n/Test-BE-Machine-Vision/issues"
+  },
+  "homepage": "https://github.com/andre-fajar-n/Test-BE-Machine-Vision#readme",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
-    "http-errors": "~1.6.3",
-    "jade": "^0.29.0",
-    "morgan": "~1.9.1"
+    "mysql": "^2.18.1"
   }
 }
