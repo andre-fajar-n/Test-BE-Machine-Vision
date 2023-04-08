@@ -1,10 +1,10 @@
 import crypto from 'crypto'; 
 
-const hashPassword = (password) => {
+export const hashPassword = (password) => {
     return crypto.createHash("sha256").update(password).digest("hex")
 }
 
-const isValidPassword = (password, hash) => {
+export const isValidPassword = (password, hash) => {
     if (hashPassword(password) === hash) {
         return true
     }
@@ -12,9 +12,6 @@ const isValidPassword = (password, hash) => {
     return false
 }
 
-const stringUtils = {
-    hashPassword,
-    isValidPassword,
-}
+const stringUtils = {}
 
 export default stringUtils;

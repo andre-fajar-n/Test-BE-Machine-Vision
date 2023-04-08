@@ -1,8 +1,8 @@
-const errorFormatter = ({ param, msg }) => {
+export const errorFormatter = ({ param, msg }) => {
     return `${param} ${msg}`;
 };
 
-const successResponse = ({message, data}) => {
+export const successResponse = ({message, data}) => {
     const success = true
     return {
         success,
@@ -11,7 +11,7 @@ const successResponse = ({message, data}) => {
     }
 }
 
-const errorResponse = ({message}) => {
+export const errorResponse = ({message}) => {
     const success = false
     const data = null
     return {
@@ -23,8 +23,4 @@ const errorResponse = ({message}) => {
 
 var responseUtils = {}
 
-export default responseUtils = {
-    errorFormatter,
-    successResponse,
-    errorResponse,
-};
+export default responseUtils
