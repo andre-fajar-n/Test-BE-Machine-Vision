@@ -1,6 +1,7 @@
 import { Router } from "express";
 import auth from "../controllers/auth.controller.js";
 import { body } from "express-validator";
+import { authenticateToken } from "../utils/jwt.util.js";
 
 var autRouter = Router();
 
@@ -18,5 +19,7 @@ autRouter.post("/login",
     body("password").exists().isLength({min:1}).trim().withMessage("cannot be empty"),
     auth.login,
 );
+
+autRouter.post("/logout", authenticateToken, auth.logout);
 
 export default autRouter;

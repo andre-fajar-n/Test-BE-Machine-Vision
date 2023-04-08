@@ -3,6 +3,7 @@ import db from "../models/index.js";
 import { errorFormatter, errorResponse, successResponse } from "../utils/response.util.js"
 import { hashPassword, isValidPassword } from "../utils/string.util.js";
 import { generateAccessToken } from "../utils/jwt.util.js";
+import jwt from "jsonwebtoken";
 
 const User = db.user;
 
@@ -108,7 +109,22 @@ const login = async (req, res) => {
     }))
 }
 
+const logout = async (req, res) => {
+    jwt.sign(req.token, "", {expiresIn: 1}, (reqLogout, err) => {
+        if (reqLogout) {
+            return res.send(successResponse({
+                message: "Successfully logout",
+                data: null,
+            }))
+        } else {
+            res.status(500).send(errorResponse({message: err}))
+        }
+    })
+
+}
+
 export default {
     register,
     login,
+    logout,
 };
