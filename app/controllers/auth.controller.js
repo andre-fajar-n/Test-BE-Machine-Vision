@@ -1,7 +1,8 @@
 import { validationResult } from "express-validator";
 import db from "../models/index.js";
 import { errorFormatter, errorResponse, successResponse } from "../utils/response.util.js"
-import { hashPassword } from "../utils/string.util.js";
+import { hashPassword, isValidPassword } from "../utils/string.util.js";
+import { generateAccessToken } from "../utils/jwt.util.js";
 
 const User = db.user;
 
@@ -67,6 +68,47 @@ const register = async (req, res) => {
         })
 }
 
+const login = async (req, res) => {
+    const errValidation = validationResult(req).formatWith(errorFormatter);
+    if (!errValidation.isEmpty()) {
+        return res.status(422).json(errorResponse({message:errValidation.array()[0]}))
+    }
+
+    // find user by username
+    var user = await User.findOne({
+        where: {
+            username: req.body.username,
+        }
+    })
+    .catch(err => {
+        return res.status(500).send({message: err.message || "Internal server error"})
+    })
+
+    if (!user) {
+        return res.status(404).send(errorResponse({message: "username not found"}))
+    }
+    
+    if (!isValidPassword(req.body.password, user.password)) {
+        return res.status(400).send(errorResponse({message: "password invalid"}))
+    }
+
+    return res.send(successResponse({
+        message: "Successfully logged in",
+        data: {
+            token: generateAccessToken(
+                {
+                    userId: user.id,
+                    name: user.name,
+                    username: user.username,
+                    email: user.email,
+                },
+                process.env.JWT_EXPIRES_IN,
+            )
+        }
+    }))
+}
+
 export default {
     register,
+    login,
 };

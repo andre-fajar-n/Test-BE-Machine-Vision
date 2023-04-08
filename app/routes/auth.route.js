@@ -13,4 +13,10 @@ autRouter.post("/register",
     auth.register,
 );
 
+autRouter.post("/login",
+    body("username").exists().isLength({min:1}).trim().withMessage("cannot be empty"),
+    body("password").exists().isLength({min:1}).trim().withMessage("cannot be empty"),
+    auth.login,
+);
+
 export default autRouter;
