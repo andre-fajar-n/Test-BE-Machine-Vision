@@ -7,7 +7,10 @@ export const generateAccessToken = (data, expiresIn) => {
 
 export const authenticateToken = (req, res, next) => {
     const authHeader = req.headers["authorization"]
-    const splitHeader = authHeader.split(" ")
+    
+    const splitHeader = authHeader && authHeader.split(" ")
+
+    if (splitHeader == null) return res.status(401).send(errorResponse({message: "No auth token"}));
 
     var token = ""
     if (splitHeader.length === 2) {
@@ -15,8 +18,6 @@ export const authenticateToken = (req, res, next) => {
     } else {
         token = authHeader
     }
-
-    if (token == null) return res.status(401).send(errorResponse({message: "No auth token"}));
 
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
         if (err) {

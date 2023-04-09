@@ -3,9 +3,9 @@ import auth from "../controllers/auth.controller.js";
 import { body } from "express-validator";
 import { authenticateToken } from "../utils/jwt.util.js";
 
-var autRouter = Router();
+var authRouter = Router();
 
-autRouter.post("/register",
+authRouter.post("/register",
     body("name").exists().isLength({min:1}).trim().withMessage("cannot be empty"),
     body("username").exists().isLength({min:1}).trim().withMessage("cannot be empty"),
     body("email").exists().isLength({min:1}).trim().withMessage("cannot be empty").isEmail().withMessage("format not valid"),
@@ -14,12 +14,12 @@ autRouter.post("/register",
     auth.register,
 );
 
-autRouter.post("/login",
+authRouter.post("/login",
     body("username").exists().isLength({min:1}).trim().withMessage("cannot be empty"),
     body("password").exists().isLength({min:1}).trim().withMessage("cannot be empty"),
     auth.login,
 );
 
-autRouter.post("/logout", authenticateToken, auth.logout);
+authRouter.post("/logout", authenticateToken, auth.logout);
 
-export default autRouter;
+export default authRouter;

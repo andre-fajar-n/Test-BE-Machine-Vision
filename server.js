@@ -33,8 +33,10 @@ app.get("/", (req, res) => {
 })
 
 import auth from "./app/routes/auth.route.js";
+import user from "./app/routes/user.route.js";
 
 app.use("/auth", auth);
+app.use("/user", user)
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
