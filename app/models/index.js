@@ -1,11 +1,15 @@
 import dbConfig from "../config/db.config.js";
 import { Sequelize } from "sequelize";
 
+// import model
+import userModel from "./user.model.js";
+import postModel from "./post.model.js";
+import userLikedModel from "./userLiked.model.js";
+
 // connect to db
 export const sequelize = new Sequelize(dbConfig.NAME, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     dialect: dbConfig.dialect,
-    operatorsAliases: false,
     pool: {
         max: dbConfig.pool.max,
         min: dbConfig.pool.min,
@@ -22,13 +26,10 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// import model
-import userModel from "./user.model.js";
-import postModel from "./post.model.js";
-
 // assign model to db
 db.user = userModel(sequelize);
 db.post = postModel(sequelize);
+db.userLiked = userLikedModel(sequelize);
 
 // define relation between user and post
 db.user.hasMany(db.post, {as: "posts"});
@@ -38,6 +39,7 @@ db.post.belongsTo(db.user, {
 })
 
 // define many-to-many between user and post
-db.user.belongsToMany(db.post, { through: "userLiked" });
+db.user.belongsToMany(db.post, { through: db.userLiked });
+db.post.belongsToMany(db.user, { through: db.userLiked });
 
 export default db;

@@ -38,4 +38,14 @@ postRouter.delete("/:postId", authenticateToken,
     postController.softDelete,
 );
 
+postRouter.put("/like/:postId", authenticateToken,
+    param("postId").isInt().exists().withMessage("cannot be empty and must be positive integer"),
+    postController.like,
+);
+
+postRouter.put("/unlike/:postId", authenticateToken,
+    param("postId").isInt().exists().withMessage("cannot be empty and must be positive integer"),
+    postController.unlike,
+);
+
 export default postRouter;
