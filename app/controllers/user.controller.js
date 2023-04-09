@@ -2,6 +2,7 @@ import { validationResult } from "express-validator";
 import db from "../models/index.js";
 import { errorFormatter, errorResponse, successResponse } from "../utils/response.util.js"
 import { Op } from "sequelize";
+import { hashPassword, isValidPassword } from "../utils/string.util.js";
 
 const User = db.user;
 
@@ -131,7 +132,61 @@ const update = async (req, res) => {
     })
 }
 
+const changePassword = async (req, res) => {
+    const errValidation = validationResult(req).formatWith(errorFormatter);
+    if (!errValidation.isEmpty()) {
+        return res.status(422).json(errorResponse({message:errValidation.array()[0]}))
+    }
+    
+    if (req.body.newPassword !== req.body.confirmNewPassword) {
+        return res.status(422).json(errorResponse({message: "Password not match"}))
+    }
+
+    // get current data
+    var currentUser = await User.findOne({
+        where: {
+            id: req.user.userId,
+        }
+    })
+    .catch(err => {
+        return res.status(500).send(errorResponse({message: err.message || "Internal server error"}))
+    })
+    if (!currentUser) {
+        return res.status(404).send(errorResponse({message: "User not found"}))
+    }
+
+    // validate old password
+    if (!isValidPassword(req.body.oldPassword, currentUser.password)) {
+        return res.status(403).send(errorResponse({message: "Password not found"}))
+    }
+
+    // prepare data that will updated
+    const userReq = {
+        password: hashPassword(req.body.newPassword),
+    }
+
+    // update data
+    await User.update(
+        userReq,
+        {
+            where: {
+                id: req.user.userId,
+            }
+        }
+    )
+    .then(data => {
+        return res.send(successResponse({
+            message: "Successfully Change Password",
+            data: null
+        }));
+    })
+    .catch(err => {
+        return res.status(500).send(errorResponse({message: err.message || "Internal server error"}))
+    })
+}
+
 export default {
     getDetail,
     update,
+    changePassword,
 };

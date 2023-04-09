@@ -15,4 +15,11 @@ userRouter.put("/", authenticateToken,
     user.update,
 );
 
+userRouter.put("/change-password", authenticateToken,
+    body("oldPassword").exists().isLength({min:1}).trim().withMessage("cannot be empty"),
+    body("newPassword").exists().isLength({min:1}).trim().withMessage("cannot be empty"),
+    body("confirmNewPassword").exists().isLength({min:1}).trim().withMessage("cannot be empty"),
+    user.changePassword,
+);
+
 export default userRouter;
