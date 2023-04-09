@@ -39,6 +39,19 @@ const update = async (req, res) => {
         return res.status(422).json(errorResponse({message:errValidation.array()[0]}))
     }
 
+    // get current data
+    var currentUser = await User.findOne({
+        where: {
+            id: req.user.userId,
+        }
+    })
+    .catch(err => {
+        return res.status(500).send(errorResponse({message: err.message || "Internal server error"}))
+    })
+    if (!currentUser) {
+        return res.status(404).send(errorResponse({message: "User not found"}))
+    }
+
     // validate duplicate email and not own yourself
     var userValidateEmail = await User.findOne({
         where: {
@@ -49,7 +62,7 @@ const update = async (req, res) => {
         }
     })
     .catch(err => {
-        return res.status(500).send({message: err.message || "Internal server error"})
+        return res.status(500).send(errorResponse({message: err.message || "Internal server error"}))
     })
 
     if (userValidateEmail) {
@@ -66,7 +79,7 @@ const update = async (req, res) => {
         }
     })
     .catch(err => {
-        return res.status(500).send({message: err.message || "Internal server error"})
+        return res.status(500).send(errorResponse({message: err.message || "Internal server error"}))
     })
 
     if (userValidateUsername) {
@@ -91,13 +104,10 @@ const update = async (req, res) => {
         }
     )
     .catch(err => {
-        return res.status(500)
-            .send({
-                message: err.message || "Internal server error"
-            })
+        return res.status(500).send(errorResponse({message: err.message || "Internal server error"}))
     })
 
-    // get current data
+    // get data after update
     await User.findOne({
         where: {
             id: req.user.userId,
@@ -117,7 +127,7 @@ const update = async (req, res) => {
         }));
     })
     .catch(err => {
-        return res.status(500).send({message: err.message || "Internal server error"})
+        return res.status(500).send(errorResponse({message: err.message || "Internal server error"}))
     })
 }
 
