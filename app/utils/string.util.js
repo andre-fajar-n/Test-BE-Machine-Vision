@@ -12,6 +12,13 @@ export const isValidPassword = (password, hash) => {
     return false
 }
 
+export const validHashtag = (str) => {
+    const regexExp = `^#[^#\\s]+(?: #[^#\\s]+)*$`;
+
+
+    return str.match(regexExp)
+}
+
 const stringUtils = {}
 
 export default stringUtils;

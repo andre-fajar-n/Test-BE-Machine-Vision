@@ -1,13 +1,15 @@
 import express from "express";
 import cors from "cors";
+import db from "./app/models/index.js";
+import authRouter from "./app/routes/auth.route.js";
+import userRouter from "./app/routes/user.route.js";
+import postRouter from "./app/routes/post.route.js";
 
 const app = express();
 
 var corsOptions = {
   origin: "*"
 };
-
-import db from "./app/models/index.js";
 
 db.sequelize.sync()
   .then(() => {
@@ -32,11 +34,9 @@ app.get("/", (req, res) => {
   })
 })
 
-import auth from "./app/routes/auth.route.js";
-import user from "./app/routes/user.route.js";
-
-app.use("/auth", auth);
-app.use("/user", user)
+app.use("/auth", authRouter);
+app.use("/user", userRouter);
+app.use("/post", postRouter);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
