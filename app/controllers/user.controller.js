@@ -1,6 +1,7 @@
+import { validationResult } from "express-validator";
 import db from "../models/index.js";
-import { errorResponse, successResponse } from "../utils/response.util.js"
-import { hashPassword } from "../utils/string.util.js";
+import { errorFormatter, errorResponse, successResponse } from "../utils/response.util.js"
+import { Op } from "sequelize";
 
 const User = db.user;
 
@@ -32,6 +33,95 @@ const getDetail = async (req, res) => {
     }))
 }
 
+const update = async (req, res) => {
+    const errValidation = validationResult(req).formatWith(errorFormatter);
+    if (!errValidation.isEmpty()) {
+        return res.status(422).json(errorResponse({message:errValidation.array()[0]}))
+    }
+
+    // validate duplicate email and not own yourself
+    var userValidateEmail = await User.findOne({
+        where: {
+            email: req.body.email,
+            id: {
+                [Op.not]: req.user.userId,
+            }
+        }
+    })
+    .catch(err => {
+        return res.status(500).send({message: err.message || "Internal server error"})
+    })
+
+    if (userValidateEmail) {
+        return res.status(422).send(errorResponse({message: "email already in use"}))
+    }
+
+    // validate duplicate username and not own yourself
+    var userValidateUsername = await User.findOne({
+        where: {
+            username: req.body.username,
+            id: {
+                [Op.not]: req.user.userId,
+            }
+        }
+    })
+    .catch(err => {
+        return res.status(500).send({message: err.message || "Internal server error"})
+    })
+
+    if (userValidateUsername) {
+        return res.status(422).send(errorResponse({message: "username already in use"}))
+    }
+    
+    // prepare data that will updated
+    const userReq = {
+        name: req.body.name,
+        username: req.body.username,
+        email: req.body.email,
+        photo: req.body.photo,
+    }
+
+    // update data
+    await User.update(
+        userReq,
+        {
+            where: {
+                id: req.user.userId,
+            }
+        }
+    )
+    .catch(err => {
+        return res.status(500)
+            .send({
+                message: err.message || "Internal server error"
+            })
+    })
+
+    // get current data
+    await User.findOne({
+        where: {
+            id: req.user.userId,
+        }
+    })
+    .then(data => {
+        return res.send(successResponse({
+            message: "Successfully Update User",
+            data: {
+                name: req.body.name,
+                username: req.body.username,
+                email: req.body.email,
+                photo: req.body.photo,
+                createdAt: data.createdAt,
+                updatedAt: data.updatedAt,
+            }
+        }));
+    })
+    .catch(err => {
+        return res.status(500).send({message: err.message || "Internal server error"})
+    })
+}
+
 export default {
     getDetail,
+    update,
 };
