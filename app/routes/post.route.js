@@ -33,4 +33,9 @@ postRouter.put("/:postId", authenticateToken,
     postController.update,
 );
 
+postRouter.delete("/:postId", authenticateToken,
+    param("postId").isInt().exists().withMessage("cannot be empty and must be positive integer"),
+    postController.softDelete,
+);
+
 export default postRouter;

@@ -124,7 +124,53 @@ const update = async (req, res) => {
     }
 }
 
+const softDelete = async (req, res) => {
+    const errValidation = validationResult(req).formatWith(errorFormatter);
+    if (!errValidation.isEmpty()) {
+        return res.status(422).json(errorResponse({message:errValidation.array()[0]}))
+    }
+
+    try {
+        // find user by id
+        var user = await User.findOne({
+            where: {
+                id: req.user.userId,
+            }
+        })
+        if (!user) {
+            return res.status(404).send(errorResponse({message: "User not found"}))
+        }
+
+        // find post by id
+        var currentPost = await Post.findOne({
+            where: {
+                id: req.params.postId,
+            }
+        })
+        if (!currentPost) {
+            return res.status(404).send(errorResponse({message: "Post not found"}))
+        }
+        if (currentPost.userId !== user.id) {
+            return res.status(403).send(errorResponse({message: "Post is not yours"}))
+        }
+
+        await Post.destroy(
+            {
+                where:{ id:req.params.postId },
+            }
+        )
+
+        return res.send(successResponse({
+            message: "Successfully Delete Post",
+            data: null
+        }));
+    } catch (error) {
+        return res.status(500).send(errorResponse({message: error.message || "Internal server error"}))
+    }
+}
+
 export default {
     create,
     update,
+    softDelete,
 };

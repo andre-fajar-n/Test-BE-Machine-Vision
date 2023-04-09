@@ -24,6 +24,7 @@ export default  (sequelize) => {
         },
     }, {
         version: true,
+        paranoid: true,
     });
 
     return Post
