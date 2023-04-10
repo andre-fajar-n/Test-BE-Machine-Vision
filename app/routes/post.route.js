@@ -69,4 +69,9 @@ postRouter.get("/", authenticateToken,
     postController.getList,
 );
 
+postRouter.get("/:postId", authenticateToken,
+    param("postId").isInt().exists().withMessage("cannot be empty and must be positive integer"),
+    postController.getDetail,
+);
+
 export default postRouter;

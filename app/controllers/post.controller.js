@@ -323,7 +323,7 @@ const getList = async (req, res) => {
                 include: [
                     {
                         model: User,
-                        require: true,
+                        required: true,
                         attributes: [
                             "name", "username", "email", "photo",
                         ]
@@ -348,6 +348,46 @@ const getList = async (req, res) => {
     }
 }
 
+const getDetail = async (req, res) => {
+    const errValidation = validationResult(req).formatWith(errorFormatter);
+    if (!errValidation.isEmpty()) {
+        return res.status(422).json(errorResponse({message:errValidation.array()[0]}))
+    }
+
+    try {
+        const data = await Post.findOne(
+            {
+                attributes: [
+                    "id", "image", "caption", "tags", "likes", "createdAt", "updatedAt",
+                ],
+                where: {
+                    id: req.params.postId,
+                },
+                include: [
+                    {
+                        model: User,
+                        required: true,
+                        attributes: [
+                            "name", "username", "email", "photo",
+                        ]
+                    },
+                ]
+            }
+        )
+
+        if (!data) {
+            return res.status(404).send(errorResponse({ message: "Post not found" }))
+        }
+
+        return res.send(successResponse({
+            message: "Successfully Get Post",
+            data,
+        }))
+    } catch (error) {
+        return res.status(500).send(errorResponse({message: error.message || "Internal server error"}))
+    }
+}
+
 export default {
     create,
     update,
@@ -355,4 +395,5 @@ export default {
     like,
     unlike,
     getList,
+    getDetail,
 };
