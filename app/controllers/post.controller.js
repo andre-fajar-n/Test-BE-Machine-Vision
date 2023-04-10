@@ -1,6 +1,7 @@
 import { validationResult } from "express-validator";
 import db, { sequelize } from "../models/index.js";
 import { errorFormatter, errorResponse, successResponse } from "../utils/response.util.js"
+import { Op } from "sequelize";
 
 const User = db.user;
 const Post = db.post;
@@ -171,26 +172,18 @@ const softDelete = async (req, res) => {
 }
 
 const like = async (req, res) => {
-    const errValidation = validationResult(req).formatWith(errorFormatter);
-    if (!errValidation.isEmpty()) {
-        return res.status(422).json(errorResponse({message:errValidation.array()[0]}))
-    }
-
-    
     likeUnlike(req, res, "like")
 }
 
 const unlike = async (req, res) => {
-    const errValidation = validationResult(req).formatWith(errorFormatter);
-    if (!errValidation.isEmpty()) {
-        return res.status(422).json(errorResponse({message:errValidation.array()[0]}))
-    }
-
-    
     likeUnlike(req, res, "unlike")
 }
 
 const likeUnlike = async (req, res, type) => {
+    const errValidation = validationResult(req).formatWith(errorFormatter);
+    if (!errValidation.isEmpty()) {
+        return res.status(422).json(errorResponse({message:errValidation.array()[0]}))
+    }
     
     try {        
         // find user by id
@@ -301,10 +294,65 @@ const likeUnlike = async (req, res, type) => {
     }
 }
 
+const getList = async (req, res) => {
+    const errValidation = validationResult(req).formatWith(errorFormatter);
+    if (!errValidation.isEmpty()) {
+        return res.status(422).json(errorResponse({message:errValidation.array()[0]}))
+    }
+
+    try {
+        var filter = {}
+        if (req.query.searchBy) {
+            filter = {
+                [req.query.searchBy]: {
+                    [Op.like]: `%${req.query.search}%`
+                },
+            }
+        }
+        
+        const limit = parseInt(req.query.limit)
+        const page = parseInt(req.query.page)
+        const { count, rows } = await Post.findAndCountAll(
+            {
+                attributes: [
+                    "id", "image", "caption", "tags", "likes", "createdAt", "updatedAt",
+                ],
+                limit,
+                offset: (page - 1) * limit,
+                where: filter,
+                include: [
+                    {
+                        model: User,
+                        require: true,
+                        attributes: [
+                            "name", "username", "email", "photo",
+                        ]
+                    },
+                ]
+            }
+        )
+
+        var output = successResponse({
+            message: "Successfully Get Post",
+            data: rows,
+        })
+        output["pagination"] = {
+            total: count,
+            page: page,
+            limit: limit,
+        }
+
+        return res.send(output)
+    } catch (error) {
+        return res.status(500).send(errorResponse({message: error.message || "Internal server error"}))
+    }
+}
+
 export default {
     create,
     update,
     softDelete,
     like,
     unlike,
+    getList,
 };

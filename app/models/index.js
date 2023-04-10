@@ -33,10 +33,7 @@ db.userLiked = userLikedModel(sequelize);
 
 // define relation between user and post
 db.user.hasMany(db.post, {as: "posts"});
-db.post.belongsTo(db.user, {
-    foreignKey: "userId",
-    as: "user"
-})
+db.post.belongsTo(db.user)
 
 // define many-to-many between user and post
 db.user.belongsToMany(db.post, { through: db.userLiked });
