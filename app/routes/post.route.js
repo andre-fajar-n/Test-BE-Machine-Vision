@@ -61,7 +61,7 @@ postRouter.get("/", authenticateToken,
         if (req.query.searchBy && !value) {
             throw new Error("cannot be empty when searchBy not empty")
         }
-        if (!validHashtag(value)) {
+        if (value && !validHashtag(value)) {
             throw new Error("invalid format")
         }
         return true
@@ -72,6 +72,34 @@ postRouter.get("/", authenticateToken,
 postRouter.get("/:postId", authenticateToken,
     param("postId").isInt().exists().withMessage("cannot be empty and must be positive integer"),
     postController.getDetail,
+);
+
+postRouter.get("/user/:userId", authenticateToken,
+    param("userId").custom(value => {
+        const temp = parseInt(value)
+        if (value && (temp < 1 || isNaN(temp))) {
+            throw new Error("must be a positive integer")
+        }
+        return true
+    }),
+    query("page").default(1).isInt().withMessage("must be a positive integer"),
+    query("limit").default(10).isInt().withMessage("must be a positive integer"),
+    query("searchBy").custom(value => {
+        if (value && (value !== "caption" && value !== "tags")) {
+            throw new Error(`search must be "caption" or "tags"`)
+        }
+        return true
+    }),
+    query("search").custom((value, {req}) => {
+        if (req.query.searchBy && !value) {
+            throw new Error("cannot be empty when searchBy not empty")
+        }
+        if (value && !validHashtag(value)) {
+            throw new Error("invalid format")
+        }
+        return true
+    }),
+    postController.getList,
 );
 
 export default postRouter;

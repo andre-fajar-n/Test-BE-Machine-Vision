@@ -309,7 +309,11 @@ const getList = async (req, res) => {
                 },
             }
         }
-        
+
+        if (req.params.userId) {
+            filter["userId"] = parseInt(req.params.userId)
+        }
+
         const limit = parseInt(req.query.limit)
         const page = parseInt(req.query.page)
         const { count, rows } = await Post.findAndCountAll(
