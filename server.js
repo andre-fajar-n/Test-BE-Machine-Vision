@@ -4,6 +4,7 @@ import db from "./app/models/index.js";
 import authRouter from "./app/routes/auth.route.js";
 import userRouter from "./app/routes/user.route.js";
 import postRouter from "./app/routes/post.route.js";
+import fileRouter, { directoryUpload } from "./app/routes/file.route.js";
 
 const app = express();
 
@@ -27,6 +28,9 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({extended: true}));
 
+// server static file inside directory "uploads"
+app.use(express.static(directoryUpload))
+
 // simple route
 app.get("/", (req, res) => {
   res.json({
@@ -37,6 +41,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/post", postRouter);
+app.use("/file", fileRouter);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
