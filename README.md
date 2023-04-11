@@ -21,4 +21,4 @@ npm install
 npm run start
 ```
 # Postman Collection
-https://api.postman.com/collections/12588858-5ae749e4-e56b-49ff-ad4c-4a4057ebc991?access_key=PMAT-01GXQH9NSM8Q7S3X1145DCA32C
+[click here](./Machine%20Vision.postman_collection.json)

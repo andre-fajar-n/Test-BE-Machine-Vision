@@ -1,0 +1,542 @@
+{
+	"info": {
+		"_postman_id": "5ae749e4-e56b-49ff-ad4c-4a4057ebc991",
+		"name": "Machine Vision",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12588858"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"andre\",\n    \"username\":\"rizky\",\n    \"email\":\"rizky@gmail.com\",\n    \"password\":\"password\",\n    \"photo\":\"https://www.youtube.com/watch?v=uRtqrZpmfKM&ab_channel=keramagz\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7070/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"rizky\",\n    \"password\":\"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7070/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJuYW1lIjoiYW5kcmUiLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiZW1haWwiOiJhbmRyZWZuZ0BnbWFpbC5jb20iLCJpYXQiOjE2ODA5OTc4MzUsImV4cCI6MTY4MDk5ODczNX0.wbxfuSsuH8xjRlv40_G9jB6dsIEzST5QhZ2c1i1Aa8c",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:7070/auth/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI1LCJuYW1lIjoiYW5kcmUiLCJ1c2VybmFtZSI6ImFuZHJlZm4iLCJlbWFpbCI6ImFuZHJlQGdtYWlsLmNvbSIsImlhdCI6MTY4MDk5ODc1NywiZXhwIjoxNjgwOTk5NjU3fQ.lG2KJ2oofTuedN-dbc8AKQ1367P-Kny3asmqJuqtkf8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:7070/user",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI1LCJuYW1lIjoiYW5kcmUiLCJ1c2VybmFtZSI6ImFuZHJlZm4iLCJlbWFpbCI6ImFuZHJlQGdtYWlsLmNvbSIsImlhdCI6MTY4MDk5OTcwNSwiZXhwIjoxNzEyNTU3MzA1fQ.TPiaamCZHBpuspJqW7-zfzQ0Th0-A2INKHzmhMnYHBA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"rizky\",\n    \"username\":\"rizky\",\n    \"email\":\"rizky@gmail.com\",\n    \"photo\":\"https://www.youtube.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7070/user",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsIm5hbWUiOiJyaXpreSIsInVzZXJuYW1lIjoicml6a3kiLCJlbWFpbCI6InJpemt5QGdtYWlsLmNvbSIsImlhdCI6MTY4MTAxMjcxOSwiZXhwIjoxNzEyNTcwMzE5fQ.kzyU4dbZD2-y3VYxMfBWxckWBAMiJhKxqbHPr-Ex8jc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"oldPassword\":\"password\",\n    \"newPassword\":\"andre\",\n    \"confirmNewPassword\":\"andre\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7070/user/change-password",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"user",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhbmRyZSIsInVzZXJuYW1lIjoicml6a3kiLCJlbWFpbCI6InJpemt5QGdtYWlsLmNvbSIsImlhdCI6MTY4MTAzMzg0MSwiZXhwIjoxNzEyNTkxNDQxfQ.cq_-QSf2wvK-tDClAsopiJb_uhTN0hGt88bCj-JaCgY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"image\":\"https://express-validator.github.io/docs/custom-error-messages/\",\n    \"caption\":\"caption\",\n    \"tags\":\"#tags #testing\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7070/post",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhbmRyZSIsInVzZXJuYW1lIjoiYW5kcmVmbiIsImVtYWlsIjoiYW5kcmVAZ21haWwuY29tIiwiaWF0IjoxNjgxMDE1Nzc2LCJleHAiOjE3MTI1NzMzNzZ9.shVVOU-hsVe9g_XQ7OKOBCSaN7uSBGJZWS0eiDlT_84",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"image\":\"https://express-validator.github.io/docs/custom-error-messages/\",\n    \"caption\":\"caption\",\n    \"tags\":\"#tags #testing\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:7070/post/:postID",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"post",
+								":postID"
+							],
+							"variable": [
+								{
+									"key": "postID",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhbmRyZSIsInVzZXJuYW1lIjoiYW5kcmVmbiIsImVtYWlsIjoiYW5kcmVAZ21haWwuY29tIiwiaWF0IjoxNjgxMDE1Nzc2LCJleHAiOjE3MTI1NzMzNzZ9.shVVOU-hsVe9g_XQ7OKOBCSaN7uSBGJZWS0eiDlT_84",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:7070/post/1",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhbmRyZSIsInVzZXJuYW1lIjoicml6a3kiLCJlbWFpbCI6InJpemt5QGdtYWlsLmNvbSIsImlhdCI6MTY4MTAzMzg0MSwiZXhwIjoxNzEyNTkxNDQxfQ.cq_-QSf2wvK-tDClAsopiJb_uhTN0hGt88bCj-JaCgY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:7070/post/like/:postID",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"post",
+								"like",
+								":postID"
+							],
+							"variable": [
+								{
+									"key": "postID",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unlike",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhbmRyZSIsInVzZXJuYW1lIjoicml6a3kiLCJlbWFpbCI6InJpemt5QGdtYWlsLmNvbSIsImlhdCI6MTY4MTAzMzg0MSwiZXhwIjoxNzEyNTkxNDQxfQ.cq_-QSf2wvK-tDClAsopiJb_uhTN0hGt88bCj-JaCgY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:7070/post/unlike/:postID",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"post",
+								"unlike",
+								":postID"
+							],
+							"variable": [
+								{
+									"key": "postID",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhbmRyZSIsInVzZXJuYW1lIjoicml6a3kiLCJlbWFpbCI6InJpemt5QGdtYWlsLmNvbSIsImlhdCI6MTY4MTAzMzg0MSwiZXhwIjoxNzEyNTkxNDQxfQ.cq_-QSf2wvK-tDClAsopiJb_uhTN0hGt88bCj-JaCgY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:7070/post",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"post"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "searchBy",
+									"value": "tags",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "%23tes",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List By User ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhbmRyZSIsInVzZXJuYW1lIjoicml6a3kiLCJlbWFpbCI6InJpemt5QGdtYWlsLmNvbSIsImlhdCI6MTY4MTAzMzg0MSwiZXhwIjoxNzEyNTkxNDQxfQ.cq_-QSf2wvK-tDClAsopiJb_uhTN0hGt88bCj-JaCgY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:7070/post/user/:userID",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"post",
+								"user",
+								":userID"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "searchBy",
+									"value": "tags",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "%23tes",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "userID",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhbmRyZSIsInVzZXJuYW1lIjoicml6a3kiLCJlbWFpbCI6InJpemt5QGdtYWlsLmNvbSIsImlhdCI6MTY4MTAzMzg0MSwiZXhwIjoxNzEyNTkxNDQxfQ.cq_-QSf2wvK-tDClAsopiJb_uhTN0hGt88bCj-JaCgY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:7070/post/:postID",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"post",
+								":postID"
+							],
+							"variable": [
+								{
+									"key": "postID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "File",
+			"item": [
+				{
+					"name": "Upload",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJhbmRyZSIsInVzZXJuYW1lIjoicml6a3kiLCJlbWFpbCI6InJpemt5QGdtYWlsLmNvbSIsImlhdCI6MTY4MTAzMzg0MSwiZXhwIjoxNzEyNTkxNDQxfQ.cq_-QSf2wvK-tDClAsopiJb_uhTN0hGt88bCj-JaCgY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "xBSUJyoZ3/Screenshot from 2023-04-10 14-06-36.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:7070/file",
+							"host": [
+								"localhost"
+							],
+							"port": "7070",
+							"path": [
+								"file"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
